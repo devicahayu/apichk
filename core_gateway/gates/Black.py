@@ -131,30 +131,28 @@ class CoreGateCode:
             if 'incorrect_zip' in datac.text or 'Your card zip code is incorrect.' in datac.text or 'The zip code you supplied failed validation' in datac.text or 'card zip code is incorrect' in datac.text:
                 status = {'msg':2,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: CVV LIVE [ZIP INCORRECT]""",'proxy':dataGate.proxy,'datext':None}
 
-            elif  'Thank You For Your Payment.' in datac.text or '"cvc_check": "pass"' in datac.text or 'thank_you' in datac.text or '"type":"one-time"' in datac.text or '"state": "succeeded"' in datac.text or "Your payment has already been processed" in datac.text or '"status": "succeeded"' in datac.text : #or 'donation_number=' in res.text
-                status = {'msg':2,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: APPROVED [CVV MATCH]""",'proxy':dataGate.proxy,'datext':None}
+            elif  'Thank You For Your Payment.' in datac.text or 'thank_you' in datac.text:#or 'donation_number=' in res.text
+                status = {'msg':2,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: LIVE """,'proxy':dataGate.proxy,'datext':None}
             elif "card has insufficient funds" in datac.text or 'insufficient_funds' in datac.text or 'Insufficient Funds' in datac.text :
-
-                status = {'msg':2,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: APPROVED [LOW BALANCE]""",'proxy':dataGate.proxy,'datext':None}
-            elif "card's security code is incorrect" in datac.text or "card&#039;s security code is incorrect" in datac.text or "security code is invalid" in datac.text or 'CVC was incorrect' in datac.text or "incorrect CVC" in datac.text or 'cvc was incorrect' in datac.text or 'Card Issuer Declined CVV' in datac.text :
-                text = f"""{dataGate.cc} |- RESULT: APPROVED [CVC MISMATCH]"""
-                status = {'msg':2,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: APPROVED [CVC MISMATCH]""",'proxy':dataGate.proxy,'datext':None}
+                status = {'msg':2,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: LIVE [LOW BALANCE]""",'proxy':dataGate.proxy,'datext':None}
+            # elif "card's security code is incorrect" in datac.text or "card&#039;s security code is incorrect" in datac.text or "security code is invalid" in datac.text or 'CVC was incorrect' in datac.text or "incorrect CVC" in datac.text or 'cvc was incorrect' in datac.text or 'Card Issuer Declined CVV' in datac.text :
+            #     text = f"""{dataGate.cc} |- RESULT: APPROVED [CVC MISMATCH]"""
+            #     status = {'msg':2,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: APPROVED [CVC MISMATCH]""",'proxy':dataGate.proxy,'datext':None}
             elif "card does not support this type of purchase" in datac.text or 'transaction_not_allowed' in datac.text or 'Transaction Not Allowed' in datac.text:
+                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: DIE [PURCHASE NOT ALLOWED]""",   'proxy':dataGate.proxy,'datext':None}
 
-
-                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: APPROVED [PURCHASE NOT ALLOWED]""",   'proxy':dataGate.proxy,'datext':None}
             elif "card number is incorrect" in datac.text or 'incorrect_number' in datac.text or 'Invalid Credit Card Number' in datac.text or 'card number is incorrect' in datac.text:
                 status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: REJECTED [CARD INCORRECT]""",   'proxy':dataGate.proxy,'datext':None}
-            elif "Customer authentication is required" in datac.text or "unable to authenticate" in datac.text or "three_d_secure_redirect" in datac.text or "hooks.stripe.com/redirect/" in datac.text or 'requires an authorization' in datac.text:
-                text = f"""{dataGate.cc} |- RESULT: REJECTED [3D SECURITY]"""
-                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: REJECTED [3D SECURITY]""",   'proxy':dataGate.proxy,'datext':None}
+            elif "Error creating plan with Stripe" in datac.text or "Error creating plan with Stripe:" in datac.text or "Error creating customer record with Stripe: " in datac.text or "hooks.stripe.com/redirect/" in datac.text or 'requires an authorization' in datac.text:
+                text = f"""{dataGate.cc} |- RESULT: DECLINED"""
+                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: DIE """,   'proxy':dataGate.proxy,'datext':None}
             elif "card was declined" in datac.text or 'card_declined' in datac.text or 'The transaction has been declined' in datac.text or 'Processor Declined' in datac.text:
-                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: REJECTED [NO NOT HONOR]""",   'proxy':dataGate.proxy,'datext':None}
+                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: DECLINED """,   'proxy':dataGate.proxy,'datext':None}
 
             elif 'Do Not Honor' in datac.text :
-                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: REJECTED [NO NOT HONOR]""",   'proxy':dataGate.proxy,'datext':None}
+                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: DIE """,   'proxy':dataGate.proxy,'datext':None}
             elif "card has expired" in datac.text or 'Expired Card' in datac.text:
-                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: REJECTED [CARD EXPIRED]""",   'proxy':dataGate.proxy,'datext':None}
+                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: DECLINED [CARD EXPIRED]""",   'proxy':dataGate.proxy,'datext':None}
             else:
                 status = {'msg':3,'contentCC':dataGate.cc,'ccResponse': dataGate.cc,'proxy':dataGate.proxy,'datext':None}
 

