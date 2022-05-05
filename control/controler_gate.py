@@ -89,7 +89,7 @@ class ctrGate:
         except Exception as e:
             # hay que mejorar las excepciones
             print('error en valid card: ', e)
-            return {'msg':3,'contentCC':datax.cc,'ccResponse': 'ERROR NO CAPTURADO...','datext':'teamsmilerxsas@hotmail.com','proxy':datax.proxy}
+            return {'msg':3,'contentCC':datax.cc,'ccResponse': 'ERROR NO CAPTURADO...','datext':str(e),'proxy':datax.proxy}
         
     def __validexp(self,cc:str) -> bool:
         valid = info()
