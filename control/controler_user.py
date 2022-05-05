@@ -20,12 +20,13 @@ class controler_user:
         x = datax.get("https://lookup.binlist.net/"+binx)
         try:
 
+            timexs =datetime.utcnow().timestamp()
             scheme =x.json()['scheme']
             typex =x.json()['type']
             brand =x.json()['brand']
             countryx = x.json()['country']['alpha2']
             bank =x.json()['bank']['name']
-            timexs =datetime.utcnow().timestamp()
+            
 
             conect.getDb().autosave.insert_one({'cc':dataG['cc'],'gate':dataG['gate'],'idUser':idTem,'scheme':scheme,'type':typex,'bank':bank,'brand':brand,'country':countryx,'time':timexs})
             
